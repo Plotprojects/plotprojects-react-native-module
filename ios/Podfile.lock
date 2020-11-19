@@ -1,0 +1,16 @@
+PODS:
+  - PlotPlugin (3.4.1)
+
+DEPENDENCIES:
+  - PlotPlugin
+
+SPEC REPOS:
+  trunk:
+    - PlotPlugin
+
+SPEC CHECKSUMS:
+  PlotPlugin: 117d42bcfe4a5e7a43c57a5d51effed64ec28fa5
+
+PODFILE CHECKSUM: 686383b65a82b14cb1e2cf21f5ef876fff41523e
+
+COCOAPODS: 1.9.3

@@ -1,0 +1,31 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.plotprojects.retail.android.react">
+
+    <application tools:targetApi="28">
+        <receiver
+            android:name="com.plotprojects.retail.android.ReactNativeNotificationFilterReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="${applicationId}.plot.FilterNotifications" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.plotprojects.retail.android.ReactNativeNotificationOpenReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="${applicationId}.plot.OpenNotification" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.plotprojects.retail.android.ReactNativeGeotriggerHandlerReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="${applicationId}.plot.HandleGeotriggers" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
