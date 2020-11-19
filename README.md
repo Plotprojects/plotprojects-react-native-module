@@ -2,6 +2,8 @@
 
 You can find PlotProjects official documentation [here](http://files.plotprojects.com/documentation/android/3.13.0/how-to-guides/React-Native-integration-guide/)
 
+You can also find an example ReactNative application with PlotProjects reactNative module integrated [here](https://github.com/Plotprojects/plot-react-native-module-example)
+
 ## Step-1 Install PlotProjects ReactNative module
 
 ```bash
