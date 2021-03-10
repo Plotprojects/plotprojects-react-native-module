@@ -83,7 +83,7 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    api('com.plotprojects:plot-android:3.13.0-beta')
+    api('com.plotprojects:plot-android:3.13.0')
     implementation 'androidx.core:core:1.1.0'
     implementation 'androidx.fragment:fragment:1.1.0'
     implementation 'androidx.work:work-runtime:2.2.0'
