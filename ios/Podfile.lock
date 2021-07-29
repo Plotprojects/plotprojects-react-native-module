@@ -1,5 +1,5 @@
 PODS:
-  - PlotPlugin (3.4.1)
+  - PlotPlugin (3.4.6)
 
 DEPENDENCIES:
   - PlotPlugin
@@ -9,8 +9,8 @@ SPEC REPOS:
     - PlotPlugin
 
 SPEC CHECKSUMS:
-  PlotPlugin: 117d42bcfe4a5e7a43c57a5d51effed64ec28fa5
+  PlotPlugin: e8e774230e942eea61aaecef939ece04f787bb9c
 
 PODFILE CHECKSUM: 686383b65a82b14cb1e2cf21f5ef876fff41523e
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1
