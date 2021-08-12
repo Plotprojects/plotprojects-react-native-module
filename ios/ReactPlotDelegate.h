@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
+#import <UserNotifications/UserNotifications.h>
 #import <PlotProjects/Plot.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
     RCTResponseSenderBlock geotriggerHandlerCallback;
     RCTResponseSenderBlock notificationHandlerCallback;
     NSMutableDictionary<NSNumber*, PlotFilterNotifications*>* notificationFilterCallbacks;
+    NSMutableDictionary<NSString*, UNNotificationRequest*>* notificationRequestsWithIds;
     NSMutableDictionary<NSNumber*, PlotHandleGeotriggers*>* geotriggerHandlerCallbacks;
 }
 

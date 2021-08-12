@@ -16,36 +16,56 @@
     if ((self = [super init]) != nil) {
         notificationFilterCallbacks = [NSMutableDictionary new];
         geotriggerHandlerCallbacks = [NSMutableDictionary new];
+        notificationRequestsWithIds = [NSMutableDictionary new];
     }
     return self;
 }
 
-
 -(void)plotFilterNotifications:(PlotFilterNotifications*)filterNotifications {
-    NSArray<UNNotificationRequest*>* notifications = filterNotifications.uiNotifications;
+    NSArray<UNNotificationRequest*>* notificationsToFilter = filterNotifications.uiNotifications;
     if (notificationFilterCallback != nil) {
         NSNumber* batchId = [NSNumber numberWithLong:([notificationFilterCallbacks count] + 1)];
         [notificationFilterCallbacks setObject:filterNotifications forKey:batchId];
-        NSArray<NSDictionary*>* notificationUserInfos = [NotificationRequestMarshaller toDictionaryArray:notifications];
+        for (UNNotificationRequest* n in notificationsToFilter) {
+            [notificationRequestsWithIds setObject:n forKey:n.identifier];
+        }
+        NSArray<NSDictionary*>* notificationUserInfos = [NotificationRequestMarshaller toDictionaryArray:notificationsToFilter];
         notificationFilterCallback(@[batchId, notificationUserInfos]);
     } else {
-        [filterNotifications showNotifications:notifications];
+        [filterNotifications showNotifications:notificationsToFilter];
     }
 }
 
 -(void)passFilteredNotifications:(NSNumber*)batchId filteredNotifications:(NSArray<NSDictionary*>*)filteredNotifications {
     PlotFilterNotifications* callback = [notificationFilterCallbacks objectForKey:batchId];
     NSMutableArray* updatedNotifications = [NSMutableArray new];
-    for (NSDictionary* n in filteredNotifications) {
-        NSString* identifier = [n objectForKey:@"identifier"];
-        UNNotificationRequest* originalNotification = [self findOriginalNotification:identifier inBatch:callback];
-        UNMutableNotificationContent* customContent =  [[UNMutableNotificationContent alloc] init];
-        customContent.body = [n objectForKey:@"message"];
-        customContent.userInfo = n;
-        UNNotificationRequest* updatedNotification =  [UNNotificationRequest requestWithIdentifier:identifier content:customContent trigger:originalNotification.trigger];
+    
+    for (NSDictionary* filteredNotification in filteredNotifications) {
+        UNNotificationRequest* updatedNotification =  [self convertToNotificationRequest:filteredNotification withCallback:callback];
         [updatedNotifications addObject:updatedNotification];
     }
+    [notificationFilterCallbacks removeObjectForKey:batchId];
     [callback showNotifications:updatedNotifications];
+}
+
+-(UNNotificationRequest*)convertToNotificationRequest:(NSDictionary*)filteredNotification withCallback:(PlotFilterNotifications*)callback {
+    NSMutableDictionary* newFilteredNotification = [filteredNotification mutableCopy];
+    NSString* requestIdentifier = [filteredNotification objectForKey:@"identifier"];
+    NSString* newMessage = [filteredNotification objectForKey:@"message"];
+    
+    UNNotificationRequest* originalNotification = [notificationRequestsWithIds objectForKey:requestIdentifier];
+    [notificationRequestsWithIds removeObjectForKey:requestIdentifier];
+    
+    id originalIdentifier = [originalNotification.content.userInfo objectForKey:@"identifier"];
+    [newFilteredNotification setValue:originalIdentifier forKey:@"identifier"];
+    id originalIdentifierWithExperiment = [originalNotification.content.userInfo objectForKey:@"identifierWithExperiment"];
+    [newFilteredNotification setValue:originalIdentifierWithExperiment forKey:@"identifierWithExperiment"];
+    UNMutableNotificationContent* customContent =  [[UNMutableNotificationContent alloc] init];
+    customContent.body = newMessage;
+    [newFilteredNotification removeObjectForKey:@"message"];
+    customContent.userInfo = newFilteredNotification;
+    
+    return [UNNotificationRequest requestWithIdentifier:requestIdentifier content:customContent trigger:originalNotification.trigger];
 }
 
 -(void)plotHandleGeotriggers:(PlotHandleGeotriggers*)geotriggerHandler {
@@ -67,16 +87,6 @@
         [handledGeotriggersResult addObject:geotrigger];
     }
     [callback markGeotriggersHandled:handledGeotriggersResult];
-}
-
--(UNNotificationRequest*)findOriginalNotification:(NSString*)identifier inBatch:(PlotFilterNotifications*)batch {
-    NSArray<UNNotificationRequest*>* notifications = batch.uiNotifications;
-    for (UNNotificationRequest* n in notifications) {
-        if (n.identifier == identifier) {
-            return n;
-        }
-    }
-    return nil;
 }
 
 -(void)plotHandleNotification:(NSString*)data response:(UNNotificationResponse*)response {
