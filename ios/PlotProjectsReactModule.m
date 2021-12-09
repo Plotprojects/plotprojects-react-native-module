@@ -61,8 +61,12 @@ RCT_EXPORT_METHOD(setDateSegmentationProperty:(NSString*)name property:(NSDate*)
     [Plot setDateSegmentationProperty:property forKey:name];
 }
 
-RCT_EXPORT_METHOD(registerNotificationFilter:(RCTResponseSenderBlock)callback) {
-    [defaultDelegate setNotificationFilterCallback:callback];
+RCT_EXPORT_METHOD(setNotificationFilterRegistered) {
+    [defaultDelegate setNotificationFilterRegistered];
+}
+
+RCT_EXPORT_METHOD(unsetNotificationFilterRegistered) {
+    [defaultDelegate unsetNotificationFilterRegistered];
 }
 
 RCT_EXPORT_METHOD(filterNotifications:(nonnull NSNumber*)batchId filteredNotificationsString:(NSString*)filteredNotificationsString) {
@@ -79,8 +83,12 @@ RCT_EXPORT_METHOD(filterNotifications:(nonnull NSNumber*)batchId filteredNotific
     }
 }
 
-RCT_EXPORT_METHOD(registerGeotriggerHandler:(RCTResponseSenderBlock)callback) {
-    [defaultDelegate setGeotriggerHandlerCallback:callback];
+RCT_EXPORT_METHOD(setGeotriggerHandlerRegistered) {
+    [defaultDelegate setGeotriggerHandlerRegistered];
+}
+
+RCT_EXPORT_METHOD(unsetGeotriggerHandlerRegistered) {
+    [defaultDelegate unsetGeotriggerHandlerRegistered];
 }
 
 RCT_EXPORT_METHOD(handleGeotriggers:(nonnull NSNumber*)batchId handledGeotriggersString:(NSString*)handledGeotriggersString) {
@@ -98,8 +106,12 @@ RCT_EXPORT_METHOD(handleGeotriggers:(nonnull NSNumber*)batchId handledGeotrigger
 
 }
 
-RCT_EXPORT_METHOD(registerNotificationOpenHandler:(RCTResponseSenderBlock)callback) {
-    [defaultDelegate setNotificationHandlerCallback:callback];
+RCT_EXPORT_METHOD(setNotificationOpenHandlerRegistered) {
+    [defaultDelegate setNotificationOpenHandlerRegistered];
+}
+
+RCT_EXPORT_METHOD(unsetNotificationOpenHandlerRegistered) {
+    [defaultDelegate unsetNotificationOpenHandlerRegistered];
 }
 
 RCT_EXPORT_METHOD(getLoadedNotifications:(RCTResponseSenderBlock)callback) {
@@ -116,6 +128,10 @@ RCT_EXPORT_METHOD(getLoadedGeotriggers:(RCTResponseSenderBlock)callback) {
 
 RCT_EXPORT_METHOD(mailDebugLog) {
     [Plot mailDebugLog: [UIApplication sharedApplication].delegate.window.rootViewController];
+}
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"onNotificationsToFilter", @"onGeotriggersToHandle", @"onNotificationOpened"];
 }
 
 @end

@@ -34,12 +34,6 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
         return "PlotProjectsReactModule";
     }
 
-//    @ReactMethod
-//    public void sampleMethod(String stringArgument, int numberArgument, Callback callback) {
-//        // TODO: Implement some actually useful functionality
-//        callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
-//    }
-
     @ReactMethod
     public void initialize() {
         Plot.init(reactContext);
@@ -67,7 +61,6 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void sendAttributionEvent(String actionName, String itemId) {
-        Log.d(LOG_TAG, "Setting attribution event");
         if (itemId == null) {
             Plot.sendAttributionEvent(actionName);
         } else {
@@ -101,9 +94,21 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void registerNotificationFilter(Callback callback) {
+    public void setNotificationFilterRegistered() {
         Log.d(LOG_TAG, "Registering notification filter");
-        ReactNativeNotificationFilterReceiver.setCallback(callback);
+        ReactNativeNotificationFilterReceiver.setReactApplicationContext(this.getReactApplicationContext());
+        ReactNativeNotificationFilterReceiver.setCallbackDefined();
+    }
+
+    @ReactMethod
+    public void unsetNotificationFilterRegistered() {
+        Log.d(LOG_TAG, "Unregistering notification filter");
+        ReactNativeNotificationFilterReceiver.unsetCallbackDefined();
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public boolean isNotificationFilterRegistered() {
+        return ReactNativeNotificationFilterReceiver.isCallbackDefined();
     }
 
     @ReactMethod
@@ -117,9 +122,21 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void registerGeotriggerHandler(Callback callback) {
+    public void setGeotriggerHandlerRegistered() {
         Log.d(LOG_TAG, "Registering geotrigger handler");
-        ReactNativeGeotriggerHandlerReceiver.setCallback(callback);
+        ReactNativeGeotriggerHandlerReceiver.setReactApplicationContext(this.getReactApplicationContext());
+        ReactNativeGeotriggerHandlerReceiver.setCallbackDefined();
+    }
+
+    @ReactMethod
+    public void unsetGeotriggerHandlerRegistered() {
+        Log.d(LOG_TAG, "Unregistering geotrigger handler");
+        ReactNativeGeotriggerHandlerReceiver.unsetCallbackDefined();
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public boolean isGeotriggerHandlerRegistered() {
+        return ReactNativeGeotriggerHandlerReceiver.isCallbackDefined();
     }
 
     @ReactMethod
@@ -133,9 +150,21 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void registerNotificationOpenHandler(Callback callback) {
+    public void setNotificationOpenHandlerRegistered() {
         Log.d(LOG_TAG, "Registering notification open handler");
-        ReactNativeNotificationOpenReceiver.setCallback(callback);
+        ReactNativeNotificationOpenReceiver.setReactApplicationContext(this.getReactApplicationContext());
+        ReactNativeNotificationOpenReceiver.setCallbackDefined();
+    }
+
+    @ReactMethod
+    public void unsetNotificationOpenHandlerRegistered() {
+        Log.d(LOG_TAG, "Unregistering notification open handler");
+        ReactNativeNotificationOpenReceiver.unsetCallbackDefined();
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public boolean isNotificationOpenHandlerRegistered() {
+        return ReactNativeNotificationOpenReceiver.isCallbackDefined();
     }
 
     @ReactMethod

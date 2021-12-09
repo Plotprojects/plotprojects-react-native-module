@@ -83,16 +83,16 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    api('com.plotprojects:plot-android:3.14.+')
+    api('com.plotprojects:plot-android:3.15.+')
     implementation 'androidx.core:core:1.1.0'
     implementation 'androidx.fragment:fragment:1.1.0'
     implementation 'androidx.work:work-runtime:2.2.0'
     implementation 'androidx.work:work-gcm:2.2.0'
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.android.gms:play-services-nearby:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-nearby:18.0.0'
+    implementation 'com.google.android.gms:play-services-awareness:18.0.2'
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-messaging:20.0.1'
-    implementation 'com.google.android.gms:play-services-awareness:17.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }
 

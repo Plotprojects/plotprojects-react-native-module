@@ -1,11 +1,12 @@
 //  Copyright © 2020 PlotProjects. All rights reserved.
 
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 #import "ReactPlotDelegate.h"
 
 @class ReactPlotDelegate;
 
-@interface PlotProjectsReactModule : NSObject <RCTBridgeModule> {
+@interface PlotProjectsReactModule : RCTEventEmitter <RCTBridgeModule> {
     ReactPlotDelegate* defaultDelegate;
 }
 

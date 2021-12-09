@@ -12,25 +12,26 @@
 
 @implementation ReactPlotDelegate
 
--(id)init {
+-(id)initWithEventEmitter:(RCTEventEmitter*)aEventEmitter {
     if ((self = [super init]) != nil) {
-        notificationFilterCallbacks = [NSMutableDictionary new];
-        geotriggerHandlerCallbacks = [NSMutableDictionary new];
-        notificationRequestsWithIds = [NSMutableDictionary new];
+        notificationFilterRegistered = NO;
+        geotriggerHandlerRegistered = NO;
+        notificationOpenHandlerRegistered = NO;
+        eventEmitter = aEventEmitter;
     }
     return self;
 }
 
 -(void)plotFilterNotifications:(PlotFilterNotifications*)filterNotifications {
     NSArray<UNNotificationRequest*>* notificationsToFilter = filterNotifications.uiNotifications;
-    if (notificationFilterCallback != nil) {
+    if (notificationFilterRegistered == YES) {
         NSNumber* batchId = [NSNumber numberWithLong:([notificationFilterCallbacks count] + 1)];
         [notificationFilterCallbacks setObject:filterNotifications forKey:batchId];
         for (UNNotificationRequest* n in notificationsToFilter) {
             [notificationRequestsWithIds setObject:n forKey:n.identifier];
         }
         NSArray<NSDictionary*>* notificationUserInfos = [NotificationRequestMarshaller toDictionaryArray:notificationsToFilter];
-        notificationFilterCallback(@[batchId, notificationUserInfos]);
+        [eventEmitter sendEventWithName:@"onNotificationsToFilter" body:@{@"batchId": batchId, @"data": notificationUserInfos}];
     } else {
         [filterNotifications showNotifications:notificationsToFilter];
     }
@@ -69,11 +70,11 @@
 }
 
 -(void)plotHandleGeotriggers:(PlotHandleGeotriggers*)geotriggerHandler {
-    if (geotriggerHandlerCallback != nil) {
+    if (geotriggerHandlerRegistered == YES) {
         NSNumber* batchId = [NSNumber numberWithLong:([geotriggerHandlerCallbacks count] + 1)];
         [geotriggerHandlerCallbacks setObject:geotriggerHandler forKey:batchId];
         NSArray<NSDictionary*>* geotriggerUserInfos = [GeotriggerMarshaller toDictionaryArray:geotriggerHandler.geotriggers];
-        geotriggerHandlerCallback(@[batchId, geotriggerUserInfos]);
+        [eventEmitter sendEventWithName:@"onGeotriggersToHandle" body:@{@"batchId": batchId, @"data": geotriggerUserInfos}];
     } else {
         [geotriggerHandler markGeotriggersHandled:geotriggerHandler.geotriggers];
     }
@@ -90,37 +91,48 @@
 }
 
 -(void)plotHandleNotification:(NSString*)data response:(UNNotificationResponse*)response {
-    if (notificationHandlerCallback != nil) {
+    if (notificationOpenHandlerRegistered == YES) {
         NSMutableDictionary* responseDictionary = [response.notification.request.content.userInfo mutableCopy];
         [responseDictionary setValue:data forKey:@"data"];
         [responseDictionary setValue:response.actionIdentifier forKey:@"actionIdentifier"];
-        notificationHandlerCallback(@[responseDictionary]);
+        [eventEmitter sendEventWithName:@"onNotificationOpened" body:responseDictionary];
     }
 }
 
--(void)setNotificationFilterCallback:(RCTResponseSenderBlock)aNotificationFilterCallback {
-    notificationFilterCallback = aNotificationFilterCallback;
+-(void)setNotificationFilterRegistered {
+    notificationFilterRegistered = YES;
 }
 
--(RCTResponseSenderBlock)getNotificationFilterCallback {
-    return notificationFilterCallback;
+-(void)unsetNotificationFilterRegistered {
+    notificationFilterRegistered = NO;
 }
 
--(void)setNotificationHandlerCallback:(RCTResponseSenderBlock)aNotificationHandlerCallback {
-    notificationHandlerCallback = aNotificationHandlerCallback;
+-(BOOL)isNotificationFilterRegistered {
+    return notificationFilterRegistered;
 }
 
--(RCTResponseSenderBlock)getNotificationHandlerCallback {
-    return notificationHandlerCallback;
+-(void)setGeotriggerHandlerRegistered {
+    geotriggerHandlerRegistered = YES;
 }
 
--(void)setGeotriggerHandlerCallback:(RCTResponseSenderBlock)aGeotriggerHandlerCallback {
-    geotriggerHandlerCallback = aGeotriggerHandlerCallback;
+-(void)unsetGeotriggerHandlerRegistered {
+    geotriggerHandlerRegistered = NO;
 }
 
--(RCTResponseSenderBlock)getGeotriggerHandlerCallback {
-    return notificationFilterCallback;
+-(BOOL)isGeotriggerHandlerRegistered {
+    return geotriggerHandlerRegistered;
 }
 
+-(void)setNotificationOpenHandlerRegistered {
+    notificationOpenHandlerRegistered = YES;
+}
+
+-(void)unsetNotificationOpenHandlerRegistered {
+    notificationOpenHandlerRegistered = NO;
+}
+
+-(BOOL)isNotificationOpenHandlerRegistered {
+    return notificationOpenHandlerRegistered;
+}
 
 @end

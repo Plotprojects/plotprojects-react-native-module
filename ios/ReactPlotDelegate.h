@@ -7,37 +7,47 @@
 
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 #import <UserNotifications/UserNotifications.h>
 #import <PlotProjects/Plot.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ReactPlotDelegate : NSObject<PlotDelegate> {
-    RCTResponseSenderBlock notificationFilterCallback;
-    RCTResponseSenderBlock geotriggerHandlerCallback;
-    RCTResponseSenderBlock notificationHandlerCallback;
     NSMutableDictionary<NSNumber*, PlotFilterNotifications*>* notificationFilterCallbacks;
     NSMutableDictionary<NSString*, UNNotificationRequest*>* notificationRequestsWithIds;
     NSMutableDictionary<NSNumber*, PlotHandleGeotriggers*>* geotriggerHandlerCallbacks;
+    RCTEventEmitter* eventEmitter;
+    BOOL notificationFilterRegistered;
+    BOOL geotriggerHandlerRegistered;
+    BOOL notificationOpenHandlerRegistered;
 }
 
--(instancetype)init;
+-(instancetype)initWithEventEmitter:(RCTEventEmitter*)eventEmitter;
 
 -(RCTResponseSenderBlock)getNotificationFilterCallback;
 
--(void)setNotificationFilterCallback:(RCTResponseSenderBlock)aNotificationFilterCallback;
+-(void)setNotificationFilterRegistered;
+
+-(void)unsetNotificationFilterRegistered;
+
+-(BOOL)isNotificationFilterRegistered;
 
 -(void)passFilteredNotifications:(NSNumber*)batchId filteredNotifications:(NSArray<NSDictionary*>*)filteredNotifications;
 
--(void)setGeotriggerHandlerCallback:(RCTResponseSenderBlock)aGeotriggerHandlerCallback;
+-(void)setGeotriggerHandlerRegistered;
+
+-(void)unsetGeotriggerHandlerRegistered;
+
+-(BOOL)isGeotriggerHandlerRegistered;
 
 -(void)passHandledGeotriggers:(NSNumber*)batchId handledGeotriggers:(NSArray<NSDictionary*>*)handledGeotriggers;
 
--(RCTResponseSenderBlock)getGeotriggerHandlerCallback;
+-(void)setNotificationOpenHandlerRegistered;
 
--(void)setNotificationHandlerCallback:(RCTResponseSenderBlock)aNotificationHandlerCallback;
+-(void)unsetNotificationOpenHandlerRegistered;
 
--(RCTResponseSenderBlock)getNotificationHandlerCallback;
+-(BOOL)isNotificationOpenHandlerRegistered;
 
 @end
 
