@@ -21,7 +21,7 @@ In order to initialize PlotProjects plugin, you need add the following code to y
 ```javascript
 import PermissionsAndroid from 'react-native';
 
-const Plot = NativeModules.PlotProjectsReactModule;
+import Plot from 'plotprojects-react-native-module';
 
 const requestLocationPermission = async () => {
     try {
