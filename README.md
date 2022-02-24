@@ -19,7 +19,7 @@ Here you can find instruction for [iOS](http://files.plotprojects.com/documentat
 In order to initialize PlotProjects plugin, you need add the following code to your `App.js`:
 
 ```javascript
-import PermissionsAndroid from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 
 import Plot from 'plotprojects-react-native-module';
 
