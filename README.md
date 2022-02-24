@@ -12,7 +12,7 @@ npm install plotprojects-react-native-module --save
 
 ## Step-2 Add `plotconfig.json` file to both Android and iOS projects
 
-Here you can find instruction for [iOS](iOS-integration-guide.md#step-4-add-configuration-file) and [Android](/documentation/android/reference/Android-integration-guide.md#step-4-define-configuration-file).
+Here you can find instruction for [iOS](http://files.plotprojects.com/documentation/ios/3.4.3/how-to-guides/iOS-integration-guide/#step-4-add-configuration-file) and [Android](http://files.plotprojects.com/documentation/android/3.16.0/how-to-guides/Android-integration-guide/#step-4-define-configuration-file).
 
 ## Step-3 Initialize PlotProjects SDK
 
