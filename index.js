@@ -2,7 +2,7 @@ import { NativeEventEmitter, NativeModules } from 'react-native';
 
 const { PlotProjectsReactModule } = NativeModules;
 
-const eventEmitter = new NativeEventEmitter(NativeModules.ToastExample);
+const eventEmitter = new NativeEventEmitter(PlotProjectsReactModule);
 
 PlotProjectsReactModule.unregisterNotificationFilter = function() {
 	if (PlotProjectsReactModule.notificationFilterListener) {

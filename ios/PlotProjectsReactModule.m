@@ -134,5 +134,29 @@ RCT_EXPORT_METHOD(mailDebugLog) {
     return @[@"onNotificationsToFilter", @"onGeotriggersToHandle", @"onNotificationOpened"];
 }
 
+RCT_EXPORT_METHOD(addListener:(NSString*)type) {
+    if ([type isEqualToString:@"onNotificationsToFilter"]) {
+        [defaultDelegate setNotificationFilterRegistered];
+    } else if ([type isEqualToString:@"onGeotriggersToHandle"]) {
+        [defaultDelegate setGeotriggerHandlerRegistered];
+    } else if ([type isEqualToString:@"onNotificationOpened"]) {
+        [defaultDelegate setNotificationOpenHandlerRegistered];
+    } else {
+        NSLog(@"Unknown listener: " + type);
+    }
+}
+
+RCT_EXPORT_METHOD(removeListeners:(NSString*)type) {
+    if ([type isEqualToString:@"onNotificationsToFilter"]) {
+        [defaultDelegate unsetNotificationFilterRegistered];
+    } else if ([type isEqualToString:@"onGeotriggersToHandle"]) {
+        [defaultDelegate unsetGeotriggerHandlerRegistered];
+    } else if ([type isEqualToString:@"onNotificationOpened"]) {
+        [defaultDelegate unsetNotificationOpenHandlerRegistered];
+    } else {
+        NSLog(@"Unknown listener: " + type);
+    }
+}
+
 @end
 

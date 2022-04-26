@@ -182,6 +182,32 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
         Plot.mailDebugLog();
     }
 
+    @ReactMethod
+    public void addListener(String type) {
+        if ("onNotificationsToFilter".equals(type)) {
+            this.setNotificationFilterRegistered();
+        } else if ("onGeotriggersToHandle".equals(type)) {
+            this.setGeotriggerHandlerRegistered();
+        } else if ("onNotificationOpened".equals(type)) {
+            this.setNotificationOpenHandlerRegistered();
+        } else {
+            Log.w(LOG_TAG, "Unknown listener: " + type);
+        }
+    }
+
+    @ReactMethod
+    public void removeListeners(String type) {
+        if ("onNotificationsToFilter".equals(type)) {
+            this.unsetNotificationFilterRegistered();
+        } else if ("onGeotriggersToHandle".equals(type)) {
+            this.unsetGeotriggerHandlerRegistered();
+        } else if ("onNotificationOpened".equals(type)) {
+            this.unsetNotificationOpenHandlerRegistered();
+        } else {
+            Log.w(LOG_TAG, "Unknown listener: " + type);
+        }
+    }
+
 }
 
 
