@@ -18,6 +18,9 @@
         geotriggerHandlerRegistered = NO;
         notificationOpenHandlerRegistered = NO;
         eventEmitter = aEventEmitter;
+        notificationFilterCallbacks = [NSMutableDictionary new];
+        notificationRequestsWithIds = [NSMutableDictionary new];
+        geotriggerHandlerCallbacks = [NSMutableDictionary new];
     }
     return self;
 }

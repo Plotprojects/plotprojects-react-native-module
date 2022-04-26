@@ -25,8 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(instancetype)initWithEventEmitter:(RCTEventEmitter*)eventEmitter;
 
--(RCTResponseSenderBlock)getNotificationFilterCallback;
-
 -(void)setNotificationFilterRegistered;
 
 -(void)unsetNotificationFilterRegistered;

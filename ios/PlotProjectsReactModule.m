@@ -12,7 +12,9 @@
 RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(initialize) {
-    defaultDelegate = [[ReactPlotDelegate alloc] init];
+    if (defaultDelegate == nil) {
+        defaultDelegate = [[ReactPlotDelegate alloc] initWithEventEmitter:self];
+    }
     [Plot initializeWithDelegate:defaultDelegate];
 }
 
@@ -132,30 +134,6 @@ RCT_EXPORT_METHOD(mailDebugLog) {
 
 - (NSArray<NSString *> *)supportedEvents {
     return @[@"onNotificationsToFilter", @"onGeotriggersToHandle", @"onNotificationOpened"];
-}
-
-RCT_EXPORT_METHOD(addListener:(NSString*)type) {
-    if ([type isEqualToString:@"onNotificationsToFilter"]) {
-        [defaultDelegate setNotificationFilterRegistered];
-    } else if ([type isEqualToString:@"onGeotriggersToHandle"]) {
-        [defaultDelegate setGeotriggerHandlerRegistered];
-    } else if ([type isEqualToString:@"onNotificationOpened"]) {
-        [defaultDelegate setNotificationOpenHandlerRegistered];
-    } else {
-        NSLog(@"Unknown listener: " + type);
-    }
-}
-
-RCT_EXPORT_METHOD(removeListeners:(NSString*)type) {
-    if ([type isEqualToString:@"onNotificationsToFilter"]) {
-        [defaultDelegate unsetNotificationFilterRegistered];
-    } else if ([type isEqualToString:@"onGeotriggersToHandle"]) {
-        [defaultDelegate unsetGeotriggerHandlerRegistered];
-    } else if ([type isEqualToString:@"onNotificationOpened"]) {
-        [defaultDelegate unsetNotificationOpenHandlerRegistered];
-    } else {
-        NSLog(@"Unknown listener: " + type);
-    }
 }
 
 @end

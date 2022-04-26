@@ -1,7 +1,7 @@
 {
   "name": "plotprojects-react-native-module",
   "title": "PlotProjectsReactModule",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "This module helps you to integrate PlotProjects plugin in react native mobile apps",
   "main": "index.js",
   "files": [
@@ -36,6 +36,6 @@
   },
   "devDependencies": {
     "react": "^17.0.2",
-    "react-native": "^0.66.3"
+    "react-native": "^0.68.1"
   }
 }
