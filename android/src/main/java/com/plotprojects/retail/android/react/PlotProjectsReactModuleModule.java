@@ -36,7 +36,7 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initialize() {
-        Plot.init(reactContext);
+        Plot.init(reactContext.getCurrentActivity());
     }
 
     @ReactMethod

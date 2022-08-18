@@ -25,24 +25,27 @@ import Plot from 'plotprojects-react-native-module';
 
 const requestLocationPermission = async () => {
     try {
-		if(Platform.OS === "ios") {
-			Plot.initialize();
-		} else {
-	        const granted = await PermissionsAndroid.requestMultiple(
-	          [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, 
-	              PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-	              PermissionsAndroid.PERMISSIONS.ACCESS_BACKGROUND_LOCATION]);
-	        if (granted['android.permission.ACCESS_BACKGROUND_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
-	              || granted['android.permission.ACCESS_COARSE_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
-	              || granted['android.permission.ACCESS_BACKGROUND_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
-	        ) {
-	          console.log("Location permission granted!");
-	          Plot.initialize();
-	        } else {
-	          console.log("Location permission denied");
-	        }
-		}
-      
+      if(Platform.OS === "ios") {
+        initializePlot();
+      } else {
+        const granted = await PermissionsAndroid.requestMultiple(
+          [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, 
+              PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION]);
+        if (granted['android.permission.ACCESS_COARSE_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
+              || granted['android.permission.ACCESS_FINE_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
+        ) {
+			console.debug("Foreground location permission granted!");
+			const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_BACKGROUND_LOCATION);
+			if (granted['android.permission.ACCESS_BACKGROUND_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED) {
+				console.debug("Background location permission granted!");
+			} else {
+				console.debug("Background location permission denied!");
+			}
+          initializePlot();
+        } else {
+          console.debug("Location permission denied!. Not initializing PlotProjects SDK.");
+        }
+      }
     } catch (err) {
       console.warn(err);
     }

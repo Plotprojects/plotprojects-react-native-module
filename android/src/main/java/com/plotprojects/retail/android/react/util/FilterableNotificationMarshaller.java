@@ -3,6 +3,7 @@ package com.plotprojects.retail.android.react.util;
 import android.os.Bundle;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.plotprojects.retail.android.FilterableNotification;
@@ -97,6 +98,7 @@ public final class FilterableNotificationMarshaller {
         final int notificationAccentColor = n.getInt("notificationAccentColor");
         final int internalId = n.getInt("internalId");
         final String regionType = n.getString("regionType");
+        final String activityClass = n.getString("activityClass");
 
         return new FilterableNotification(campaignId,
                 regionId,
@@ -118,7 +120,8 @@ public final class FilterableNotificationMarshaller {
                 internalId,
                 regionType,
                 matchPayload,
-                customRegionFields);
+                customRegionFields,
+                activityClass);
     }
 
     private static Bundle toBundle(FilterableNotification n) {
@@ -169,6 +172,7 @@ public final class FilterableNotificationMarshaller {
         bundle.putInt("notificationAccentColor", n.getNotificationAccentColor());
         bundle.putInt("internalId", n.getInternalId());
         bundle.putString("regionType", n.getRegionType());
+        bundle.putString("activityClass", n.getActivity());
 
         return bundle;
     }
