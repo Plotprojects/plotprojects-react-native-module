@@ -85,13 +85,13 @@ public final class GeotriggerMarshaller {
         }
 
         final String campaignId = g.getString("campaignId");
-        final Option<String> regionId = g.has("regionId") ? new Some(g.getString("regionId")) : None.getInstance();
+        final Option<String> regionId = g.has("regionId") && !g.isNull("regionId") ? new Some(g.getString("regionId")) : None.getInstance();
         final String matchId = g.getString("matchId");
         final String name = g.getString("name");
         final String data = g.getString("data");
-        final Double geofenceLatitude = g.getDouble("geofenceLatitude");
-        final Double geofenceLongitude = g.getDouble("geofenceLongitude");
-        final Option<Integer> matchRange = g.has("matchRange") ? new Some<>(g.getInt("matchRange")) : None.getInstance();
+        final Double geofenceLatitude = g.has("geofenceLatitude") && !g.isNull("geofenceLatitude") ? g.getDouble("geofenceLatitude") : null;
+        final Double geofenceLongitude = g.has("geofenceLongitude") && !g.isNull("geofenceLongitude") ? g.getDouble("geofenceLongitude") : null;
+        final Option<Integer> matchRange = g.has("matchRange") && !g.isNull("matchRange") ? new Some<>(g.getInt("matchRange")) : None.getInstance();
         final String trigger = g.getString("trigger");
         final int dwellingMinutes = g.getInt("dwellingMinutes");
         final int internalId = g.getInt("internalId");

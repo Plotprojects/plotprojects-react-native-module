@@ -3,7 +3,6 @@ package com.plotprojects.retail.android.react.util;
 import android.os.Bundle;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.plotprojects.retail.android.FilterableNotification;
@@ -82,8 +81,8 @@ public final class FilterableNotificationMarshaller {
         }
 
         final String campaignId = n.getString("campaignId");
-        final Option<String> regionId = n.has("regionId") ? new Some(n.getString("regionId")) : None.getInstance();
-        final String experimentId = n.getString("experimentId");
+        final Option<String> regionId = n.has("regionId") && !n.isNull("regionId") ? new Some(n.getString("regionId")) : None.getInstance();
+        final String experimentId = n.has("experimentId") && !n.isNull("experimentId") ? n.getString("experimentId") : null;
         final int experimentMessageNumber = n.getInt("experimentMessageNumber");
         final String matchId = n.getString("matchId");
         final String message = n.getString("message");
