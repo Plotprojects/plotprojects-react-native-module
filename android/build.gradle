@@ -130,7 +130,8 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"
 	// From node_modules
-    api('com.plotprojects:plot-android:3.17.+')
+    api('com.plotprojects:plot-android:3.18.+')
+    implementation 'org.altbeacon:android-beacon-library:2.19.4'
     implementation 'androidx.core:core:1.1.0'
     implementation 'androidx.fragment:fragment:1.1.0'
     implementation 'androidx.work:work-runtime:2.2.0'

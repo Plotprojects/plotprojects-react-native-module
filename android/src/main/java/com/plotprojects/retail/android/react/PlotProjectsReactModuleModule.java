@@ -36,7 +36,13 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initialize() {
-        Plot.init(reactContext.getCurrentActivity());
+        try {
+            Plot.init(reactContext.getCurrentActivity());
+            Log.i(LOG_TAG, "Activity registered");
+        } catch (Exception e) {
+            Plot.init(reactContext);
+            Log.w(LOG_TAG, "Activity not registered, notificatins won't be sent to android 12");
+        }
     }
 
     @ReactMethod
