@@ -1,6 +1,8 @@
 package com.plotprojects.retail.android.react;
 
 import android.util.Log;
+import android.app.Activity;
+
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -38,10 +40,8 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
     public void initialize() {
         try {
             Plot.init(reactContext.getCurrentActivity());
-            Log.i(LOG_TAG, "Activity registered");
         } catch (Exception e) {
             Plot.init(reactContext);
-            Log.w(LOG_TAG, "Activity not registered, notificatins won't be sent to android 12");
         }
     }
 
