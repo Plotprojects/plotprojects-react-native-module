@@ -3,6 +3,7 @@ package com.plotprojects.retail.android;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -35,19 +36,33 @@ public class ReactNativeNotificationOpenReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (callbackDefined == null || !callbackDefined) {
-            return;
+            startNewActivityForOlderPhones(context);
         } else {
             try {
                 final FilterableNotification notification = intent.getParcelableExtra("notification");
-                if (notification.getData() == null) {
-                    return;
-                } else {
+                if (notification.getData() != null) {
                     final WritableMap data = FilterableNotificationMarshaller.toJs(notification);
-                    reactApplicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(EVENT_NAME, data);
+                    reactApplicationContext
+                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit(EVENT_NAME, data);
                 }
+                startNewActivityForOlderPhones(context);
             } catch (Exception e) {
                 Log.e("ReactNotificationOpen", "Error during handling notification open", e);
             }
+        }
+    }
+
+    public void startNewActivityForOlderPhones(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return;
+        }
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent != null) {
+            context.startActivity(intent);
+        } else {
+            Log.w("ReactNotificationOpen", "Launch intent is null!");
         }
     }
 }
