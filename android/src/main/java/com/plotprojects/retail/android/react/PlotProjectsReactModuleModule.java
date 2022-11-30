@@ -1,6 +1,8 @@
 package com.plotprojects.retail.android.react;
 
 import android.util.Log;
+import android.app.Activity;
+
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -36,7 +38,11 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initialize() {
-        Plot.init(reactContext.getCurrentActivity());
+        try {
+            Plot.init(reactContext.getCurrentActivity());
+        } catch (Exception e) {
+            Plot.init(reactContext);
+        }
     }
 
     @ReactMethod
