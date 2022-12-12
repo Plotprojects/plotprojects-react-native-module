@@ -29,8 +29,10 @@ const requestLocationPermission = async () => {
         initializePlot();
       } else {
         const granted = await PermissionsAndroid.requestMultiple(
-          [PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, 
-              PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION]);
+          ["android.permission.POST_NOTIFICATIONS",
+          	PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+	          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, 
+              ]);
         if (granted['android.permission.ACCESS_COARSE_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
               || granted['android.permission.ACCESS_FINE_LOCATION'] === PermissionsAndroid.RESULTS.GRANTED
         ) {
@@ -65,6 +67,7 @@ This module supports the following methods:
 * `Plot.enable()` Enables PlotProjects plugin after disabling it. When you initialize the plugin using `Plot.initialize()` it is enabled by default.
 * `Plot.disable()` Disables PlotProjects plugin.
 * `Plot.isEnabled(callback);` Checks if PlotProjects plugin is enabled. Callback will receive one boolean argument represents the result of this check.
+* `plot.deviceId(callback);` Retrieve a unique identifier assigned to this install by PlotProjects.
 * `Plot.sendAttributionEvent("read_flyer", "discounts_week_12");` Sets an attribution event with key and value. It can be useful to tie some actions users take to events.
 * `Plot.setStringSegmentationProperty("gender", "man");` Sets a string segmentation property.
 * `Plot.setBooleanSegmentationProperty("is_true", true);` Sets a boolean segmentation property.
@@ -75,7 +78,7 @@ This module supports the following methods:
 * `Plot.registerNotificationFilter(callback);` Registers a notification filter so that you can filter notifications before they are sent to the user. An example of a call to that method is:
 
 ```javascript
-Plot.registerNotificationFilter((batchId, notifications) => {
+	Plot.registerNotificationFilter((batchId, notifications) => {
         notifications[0]['message'] = 'New message';
         Plot.filterNotifications(batchId, JSON.stringify(notifications));
     });
@@ -87,7 +90,7 @@ You need to call `Plot.filterNotifications(batchId, JSON.stringify(notifications
 * `Plot.registerGeotriggerHandler(callback)` register a geotrigger handler. An example of a call to this method is:
 
 ```javascript
-Plot.registerGeotriggerHandler((batchId, geotriggers) => {
+	Plot.registerGeotriggerHandler((batchId, geotriggers) => {
 		Plot.handleGeotriggers(batchId, JSON.stringify(geotriggers));
 	});
 ```
@@ -98,3 +101,4 @@ You need to call `Plot.handleGeotriggers(batchId, JSON.stringify(geotriggers));`
 * `Plot.registerNotificationOpenHandler(callback);` register a callback when user opens (tabs) a notification. Callback will have one parameter represents the opened notification.
 * `Plot.getLoadedNotifications(callback);` retrieve the nearest 200 loaded notifications. Callback will have one parameter contains an array of the loaded notifications.
 * `Plot.getLoadedGeotriggers(callback);` retrieve the nearest 200 loaded geotriggers. Callback will have one parameter contains an array of the loaded geotriggers.
+* `Plot.deviceId(callback);` retrieve PlotProjects specific device ID.

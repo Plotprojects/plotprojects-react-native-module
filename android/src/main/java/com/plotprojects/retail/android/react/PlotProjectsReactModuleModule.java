@@ -61,6 +61,11 @@ public class PlotProjectsReactModuleModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void deviceId(Callback callback) {
+        Plot.deviceId(callback::invoke);
+    }
+
+    @ReactMethod
     public void setAdvertisingId(String advertisingId, Boolean limitAdTracking) {
         Plot.setAdvertisingId(advertisingId, limitAdTracking);
     }

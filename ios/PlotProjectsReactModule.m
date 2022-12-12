@@ -35,6 +35,12 @@ RCT_EXPORT_METHOD(isEnabled:(RCTResponseSenderBlock)callback) {
     callback(@[[NSNumber numberWithBool:[Plot isEnabled]]]);
 }
 
+RCT_EXPORT_METHOD(deviceId:(RCTResponseSenderBlock)callback) {
+    [Plot deviceId:^(NSString* deviceId) {
+        callback(@[deviceId]);
+    }];
+}
+
 RCT_EXPORT_METHOD(sendAttributionEvent:(NSString*)actionName itemId:(NSString*)itemId) {
     [Plot sendAttributionEvent:actionName withItemId:itemId];
 }
